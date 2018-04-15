@@ -65,7 +65,7 @@ class ShareQuote {
 	 *
 	 * @return bool|string
 	 */
-	public function shortcode( $atts, $content ) {
+	public function shortcode( $atts = [], $content = false ) {
 		// Should always have content, as we want to wrap our ShareQuote quote.
 		if ( empty( $content ) ) {
 			return false;
@@ -78,7 +78,7 @@ class ShareQuote {
 		wp_enqueue_style( 'sharequote' );
 
 		// Retrieve values required in links.
-		$alignment    = ! empty( $atts['align'] ) ? $atts['align'] : 'none';
+		$alignment    = $this->get_sharequote_alignment( $atts['align'] );
 		$permalink    = get_the_permalink();
 		$link_title   = rawurlencode( get_the_title() );
 		$link_content = rawurlencode( $content );
@@ -87,5 +87,16 @@ class ShareQuote {
 		include SHAREQUOTE_DIR . 'views/shortcode-output.php';
 
 		return ob_get_clean();
+	}
+
+	/**
+	 * Determine alignment of ShareQuote based on shortcode attributes.
+	 *
+	 * @param string $alignment Alignment of ShareQuote, expected left|right|none.
+	 *
+	 * @return string
+	 */
+	public function get_sharequote_alignment( $alignment = '' ) {
+		return in_array( $alignment, [ 'left', 'right', 'none' ], true ) ? $alignment : $this->defaults['align'];
 	}
 }
