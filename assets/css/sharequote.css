@@ -1,0 +1,68 @@
+.sharequote {
+    border-left: 2px solid #d3d3d3;
+    display: block;
+    margin-bottom: 20px;
+    padding-left: 40px;
+    position: relative;
+}
+
+.sharequote--align-right {
+    display: block;
+    float: right;
+    max-width: 300px;
+    margin-left: 20px;
+}
+
+.sharequote--align-left {
+    display: block;
+    float: left;
+    max-width: 300px;
+    margin-right: 20px;
+}
+
+.sharequote figure,
+.sharequote blockquote {
+    margin: 0;
+    padding: 0;
+}
+
+.sharequote blockquote:before {
+    color: #d3d3d3;
+    content: "“";
+    display: block;
+    font-size: 60px;
+    left: 6px;
+    line-height: 1;
+    margin-bottom: 10px;
+    position: absolute;
+    top: 0;
+}
+
+.sharequote blockquote p {
+    margin-bottom: 10px;
+}
+
+.sharequote__buttons ul {
+    display: flex;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.sharequote__buttons ul li:not(:last-of-type) {
+    margin-right: 5px;
+}
+
+.sharequote__buttons ul li a,
+.sharequote__buttons ul li a:hover,
+.sharequote__buttons ul li a:focus {
+    border: none;
+    box-shadow: none;
+    display: block;
+}
+
+.sharequote__buttons ul li a,
+.sharequote__buttons ul li img {
+    height: 24px;
+    width: 24px;
+}
