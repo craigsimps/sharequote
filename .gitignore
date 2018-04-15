@@ -1,2 +1,5 @@
 # Ignore vendor files.
 vendor/
+
+# Ignore .lock files, we want most recent versions.
+*.lock
