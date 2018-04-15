@@ -13,14 +13,17 @@ namespace ShareQuote;
 
 /**
  * Class ShareQuote
+ *
  * @package ShareQuote
  */
 class ShareQuote {
 
 	/**
-	 * @var array Default shortcode attributes.
+	 * Property to hold array of default shortcode attributes.
+	 *
+	 * @var array $defaults Default shortcode attributes.
 	 */
-	protected $defaults;
+	public $defaults;
 
 	/**
 	 * ShareQuote constructor.
@@ -29,7 +32,7 @@ class ShareQuote {
 	 */
 	public function __construct() {
 		$this->defaults = [
-			'align' => 'right',
+			'align' => 'none',
 		];
 	}
 
@@ -57,7 +60,7 @@ class ShareQuote {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param array $atts Attributes passed from shortcode.
+	 * @param array  $atts Attributes passed from shortcode.
 	 * @param string $content Shortcode content, our ShareQuote content.
 	 *
 	 * @return bool|string

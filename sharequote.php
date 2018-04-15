@@ -42,7 +42,7 @@ namespace ShareQuote;
 defined( 'ABSPATH' ) || exit;
 
 // Define plugin constants.
-define( 'SHAREQUOTE_VERSION', '1.0.0' );
+define( 'SHAREQUOTE_VERSION', '1.0.3' );
 define( 'SHAREQUOTE_URL', trailingslashit( plugin_dir_url( __FILE__ ) ) );
 define( 'SHAREQUOTE_DIR', trailingslashit( plugin_dir_path( __FILE__ ) ) );
 
@@ -54,7 +54,7 @@ load_plugin_textdomain( 'sharequote', false, '/languages' );
  *
  * @since 1.0.0
  */
-require_once 'includes/class-sharequote.php';
+require_once 'vendor/autoload.php';
 
 /**
  * Start the engine.

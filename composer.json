@@ -1,0 +1,36 @@
+{
+    "name": "craigsimps/sharequote",
+    "description": "Highlight important content and allow users to easily share it with their network.",
+    "type": "wordpress-plugin",
+    "homepage": "https://github.com/craigsimps/sharequote",
+    "license": "GPL-2.0-or-later",
+    "authors": [
+        {
+            "name": "Craig Simpson",
+            "homepage": "https://craigsimpson.scot",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/craigsimps/sharequote/issues"
+    },
+    "autoload": {
+        "psr-4": {
+            "ShareQuote\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "ShareQuote\\Tests\\": "tests/"
+        }
+    },
+    "require-dev": {
+        "roave/security-advisories": "dev-master",
+        "brain/monkey": "2.*",
+        "phpunit/phpunit": "^6.5",
+        "squizlabs/php_codesniffer": "^3.2",
+        "wp-coding-standards/wpcs": "^0.14.1",
+        "wimg/php-compatibility": "^8.1",
+        "dealerdirect/phpcodesniffer-composer-installer": "^0.4.4"
+    }
+}

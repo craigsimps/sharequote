@@ -1,0 +1,19 @@
+language: php
+sudo: false
+
+php:
+  - 7.1
+
+notifications:
+  email: false
+
+cache:
+  directories:
+    - vendor
+
+install:
+  composer install --prefer-dist --no-suggest --optimize-autoloader -q
+
+script:
+  - ./vendor/bin/phpunit
+  - ./vendor/bin/phpcs
