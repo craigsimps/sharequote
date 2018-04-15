@@ -12,6 +12,7 @@
 namespace ShareQuote\Tests\Unit;
 
 use ShareQuote\ShareQuote;
+use Brain\Monkey\Filters;
 use Brain\Monkey\Functions;
 
 /**
@@ -122,6 +123,14 @@ class PluginShortcodeTest extends TestCase {
 	 */
 	public function test_sharequote_shortcode_content_is_prepared_for_url_output() {
 		self::assertNotEquals( self::CONTENT, $this->sharequote->get_sharequote_post_link_content( self::CONTENT ) );
+	}
+
+	/**
+	 * Test that the sharequote_post_link_templates filter is applied.
+	 */
+	public function test_sharequote_shortcode_post_link_templates_filter_is_applied() {
+		$this->sharequote->get_sharequote_post_link_templates();
+		self::assertTrue( Filters\applied( 'sharequote_post_link_templates' ) > 0 );
 	}
 
 	/**

@@ -152,11 +152,11 @@ class ShareQuote {
 	 * @return array
 	 */
 	public function get_sharequote_post_link_templates() {
-		return [
+		return apply_filters( 'sharequote_post_link_templates', [
 			'twitter'  => 'https://twitter.com/intent/tweet?text={CONTENT}&url={PERMALINK}',
 			'facebook' => 'https://www.facebook.com/sharer/sharer.php?u={PERMALINK}',
 			'linkedin' => 'https://www.linkedin.com/shareArticle?mini=true&url={PERMALINK}&title={TITLE}&summary={CONTENT}&source={PERMALINK}',
-		];
+		] );
 	}
 
 	/**

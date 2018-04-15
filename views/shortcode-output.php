@@ -8,9 +8,9 @@
  * @link      https://craigsimpson.scot
  * @copyright 2018 Craig Simpson
  *
- * @param string $alignment Alignment value from $atts, left|right|none.
+ * @param string $alignment ShareQuote alignment, from left|right|none.
  * @param string $content Shortcode content.
- * @param array  $links Array of social sharing links, with structure 'network' => 'url'.
+ * @param array  $sharing_links Array of social sharing links, with structure 'network' => 'url'.
  */
 
 namespace ShareQuote;
