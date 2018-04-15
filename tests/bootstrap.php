@@ -16,3 +16,6 @@ namespace ShareQuote\Tests;
 // Load dependencies.
 $plugins_dir = dirname( __DIR__, 1 );
 require_once $plugins_dir . '/vendor/autoload.php';
+
+define( 'SHAREQUOTE_DIR', $plugins_dir . '/' );
+define( 'SHAREQUOTE_URL', 'https://sharequote.localhost/wp-content/plugins/sharequote/' );

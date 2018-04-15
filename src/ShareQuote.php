@@ -77,11 +77,19 @@ class ShareQuote {
 		// Enqueue CSS styles.
 		wp_enqueue_style( 'sharequote' );
 
+		// Set ShareQuote alignment.
+		$alignment = $this->get_sharequote_alignment( $atts['align'] );
+
 		// Retrieve values required in links.
-		$alignment    = $this->get_sharequote_alignment( $atts['align'] );
-		$permalink    = get_the_permalink();
-		$link_title   = rawurlencode( get_the_title() );
-		$link_content = rawurlencode( $content );
+		$link = [
+			'url'     => $this->get_sharequote_post_link(),
+			'title'   => $this->get_sharequote_post_link_title(),
+			'content' => $this->get_sharequote_post_link_content( $content ),
+		];
+
+		// Retrieve link templates.
+		$templates     = $this->get_sharequote_post_link_templates();
+		$sharing_links = $this->get_sharequote_share_links( $link, $templates );
 
 		ob_start();
 		include SHAREQUOTE_DIR . 'views/shortcode-output.php';
@@ -97,6 +105,90 @@ class ShareQuote {
 	 * @return string
 	 */
 	public function get_sharequote_alignment( $alignment = '' ) {
-		return in_array( $alignment, [ 'left', 'right', 'none' ], true ) ? $alignment : $this->defaults['align'];
+		return 'sharequote--align-' . ( in_array( $alignment, [ 'left', 'right', 'none' ], true ) ? $alignment : $this->defaults['align'] );
+	}
+
+	/**
+	 * Determine post link for ShareQuote.
+	 *
+	 * Most of the time the shortcode will be used in posts and pages, but sometimes
+	 * it might output in archives, search results, or other places where
+	 * get_the_permalink() might not function. For those cases, lets just fall back
+	 * to the home_url() until I can come up with something better.
+	 *
+	 * @return false|string
+	 */
+	public function get_sharequote_post_link() {
+		return get_the_permalink() ?: home_url();
+	}
+
+	/**
+	 * Encode the post title for inclusion in links.
+	 *
+	 * @return string
+	 */
+	public function get_sharequote_post_link_title() {
+		return rawurlencode( get_the_title() );
+	}
+
+	/**
+	 * Encode the ShareQuote content for inclusion in links.
+	 *
+	 * @param string $content ShareQuote shortcode content.
+	 *
+	 * @return string
+	 */
+	public function get_sharequote_post_link_content( $content ) {
+		return rawurlencode( $content );
+	}
+
+	/**
+	 * ShareQuote post link templates.
+	 *
+	 * Social network name as array key, template for link output as value,
+	 * using placeholders for replacement later when outputting inside
+	 * shortcode.
+	 *
+	 * @return array
+	 */
+	public function get_sharequote_post_link_templates() {
+		return [
+			'twitter'  => 'https://twitter.com/intent/tweet?text={CONTENT}&url={PERMALINK}',
+			'facebook' => 'https://www.facebook.com/sharer/sharer.php?u={PERMALINK}',
+			'linkedin' => 'https://www.linkedin.com/shareArticle?mini=true&url={PERMALINK}&title={TITLE}&summary={CONTENT}&source={PERMALINK}',
+		];
+	}
+
+	/**
+	 * Build an array of sharing links from our link values and templates.
+	 *
+	 * @param array $link Link parameters.
+	 * @param array $templates Social sharing link templates with {PLACEHOLDERS}.
+	 *
+	 * @return array
+	 */
+	public function get_sharequote_share_links( $link, $templates ) {
+		$links = [];
+		foreach ( $templates as $network => $template ) {
+			$links[ $network ] = $this->get_sharequote_link_from_template( $link, $template );
+		}
+
+		return $links;
+	}
+
+	/**
+	 * Perform string replacements on link template to generate sharing url.
+	 *
+	 * @param array  $link Link parameters.
+	 * @param string $template Single social sharing link template with {PLACEHOLDERS}.
+	 *
+	 * @return string
+	 */
+	public function get_sharequote_link_from_template( $link, $template ) {
+		$share_link = str_replace( '{PERMALINK}', $link['url'], $template );
+		$share_link = str_replace( '{TITLE}', $link['title'], $share_link );
+		$share_link = str_replace( '{CONTENT}', $link['content'], $share_link );
+
+		return $share_link;
 	}
 }
