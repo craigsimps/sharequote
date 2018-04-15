@@ -51,15 +51,14 @@ class PluginShortcodeTest extends TestCase {
 	 */
 	protected function setUp() {
 		Functions\when( 'shortcode_atts' )->alias( 'array_merge' );
+		Functions\when( 'get_the_permalink' )->justReturn( self::PERMALINK );
 		Functions\when( 'get_the_title' )->justReturn( self::TITLE );
 		Functions\when( 'home_url' )->justReturn( self::HOME );
 
 		Functions\stubs( [
-			'wp_enqueue_style',
 			'esc_attr',
+			'esc_html',
 			'esc_url',
-			'wp_kses_post',
-			'wpautop',
 		] );
 
 		$this->sharequote = new ShareQuote();
@@ -72,6 +71,23 @@ class PluginShortcodeTest extends TestCase {
 	 */
 	public function test_sharequote_shortcode_returns_false_with_no_content_set() {
 		self::assertFalse( $this->sharequote->shortcode() );
+	}
+
+	/**
+	 * Test that the ShareQuote shortcode styling is output by default.
+	 */
+	public function test_sharequote_shortcode_styling_is_output_by_default() {
+		Functions\expect( 'wp_enqueue_style' )->once();
+		$this->sharequote->shortcode( [], self::CONTENT );
+	}
+
+	/**
+	 * Test that the ShareQuote shortcode styling output filter is applied.
+	 */
+	public function test_sharequote_shortcode_styling_output_filter_is_applied() {
+		Functions\when( 'wp_enqueue_style' )->justReturn();
+		Filters\expectApplied( 'sharequote_disable_stylesheet' )->once()->with( false );
+		$this->sharequote->shortcode( [], self::CONTENT );
 	}
 
 	/**
@@ -99,7 +115,6 @@ class PluginShortcodeTest extends TestCase {
 	 * Test that the ShareQuote shortcode post link is set to the current post permalink when it exists.
 	 */
 	public function test_sharequote_shortcode_post_link_is_set_to_permalink_when_it_exists() {
-		Functions\when( 'get_the_permalink' )->justReturn( self::PERMALINK );
 		self::assertEquals( self::PERMALINK, $this->sharequote->get_sharequote_post_link() );
 	}
 

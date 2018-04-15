@@ -75,7 +75,9 @@ class ShareQuote {
 		$atts = shortcode_atts( $this->defaults, $atts );
 
 		// Enqueue CSS styles.
-		wp_enqueue_style( 'sharequote' );
+		if ( true !== apply_filters( 'sharequote_disable_stylesheet', false ) ) {
+			wp_enqueue_style( 'sharequote' );
+		}
 
 		// Set ShareQuote alignment.
 		$alignment = $this->get_sharequote_alignment( $atts['align'] );
